@@ -40,7 +40,22 @@ public class projectLists extends Activity {
         SetStandardGroups();
         customExpandableListViewAdapter = new adapter(this, listDataHeader, listDataChild);
         expandableListView.setAdapter(customExpandableListViewAdapter);
-
+        Button post = findViewById(R.id.button4);
+        Button take = findViewById(R.id.button8);
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(projectLists.this,addProject.class);
+                startActivity(i);
+            }
+        });
+        take.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(projectLists.this,projectTaken.class);
+                startActivity(i);
+            }
+        });
 
     }
 

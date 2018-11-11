@@ -1,8 +1,11 @@
 package c.group24.techapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +43,22 @@ public class projectTaken extends Activity {
         SetStandardGroups();
         customExpandableListViewAdapter = new adaptertaken(this, listDataHeader, listDataChild);
         expandableListView.setAdapter(customExpandableListViewAdapter);
+        Button post = findViewById(R.id.button6);
+        Button list = findViewById(R.id.button7);
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(projectTaken.this,addProject.class);
+                startActivity(i);
+            }
+        });
+        list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(projectTaken.this,projectLists.class);
+                startActivity(i);
+            }
+        });
 
     }
 
