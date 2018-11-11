@@ -40,12 +40,12 @@ public class adapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         String childText = (String) getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if(childPosition!=2) {
+            if(!isLastChild) {
                 convertView = inflater.inflate(R.layout.list_item, null);
                 Log.i("Lastlines",Integer.toString(childPosition));
             }else{
@@ -68,7 +68,7 @@ public class adapter extends BaseExpandableListAdapter {
             }
         }else{
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if(childPosition!=2) {
+            if(!isLastChild) {
                 convertView = inflater.inflate(R.layout.list_item, null);
                 Log.i("Lastlines",Integer.toString(childPosition));
             }else{
@@ -80,10 +80,11 @@ public class adapter extends BaseExpandableListAdapter {
                     @Override
                     public void onClick(View view) {
                         FirebaseAuth auth = FirebaseAuth.getInstance();
-                        String nameStr = auth.getCurrentUser().getDisplayName();
+                        String uidStr = auth.getCurrentUser().getUid();
+                        String emailStr = auth.getCurrentUser().getEmail();
                         String proj_name = headerItem.get(groupPosition);
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Taken projects and members").child(proj_name);
-                        ref.child(nameStr);
+                        ref.child(uidStr).setValue(emailStr);
 
 
                     }
