@@ -1,6 +1,7 @@
 package c.group24.techapp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,11 +45,37 @@ public class adapter extends BaseExpandableListAdapter {
         String childText = (String) getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if(!isLastChild) {
+            if(childPosition!=2) {
                 convertView = inflater.inflate(R.layout.list_item, null);
+                Log.i("Lastlines",Integer.toString(childPosition));
             }else{
+                Log.i("Lastlines",Integer.toString(childPosition));
                 convertView = inflater.inflate(R.layout.list_item_with_button, null);
                 Button join = convertView.findViewById(R.id.myButton);
+                join.setFocusable(false);
+                join.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                        String nameStr = auth.getCurrentUser().getDisplayName();
+                        String proj_name = headerItem.get(groupPosition);
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Taken projects and members").child(proj_name);
+                        ref.child(nameStr);
+
+
+                    }
+                });
+            }
+        }else{
+            LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if(childPosition!=2) {
+                convertView = inflater.inflate(R.layout.list_item, null);
+                Log.i("Lastlines",Integer.toString(childPosition));
+            }else{
+                Log.i("Lastlines",Integer.toString(childPosition));
+                convertView = inflater.inflate(R.layout.list_item_with_button, null);
+                Button join = convertView.findViewById(R.id.myButton);
+                join.setFocusable(false);
                 join.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
