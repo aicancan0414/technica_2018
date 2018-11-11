@@ -1,13 +1,11 @@
 package c.group24.techapp;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,10 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class projectLists extends Activity {
+public class projectTaken extends Activity {
 
     ExpandableListView expandableListView;
-    adapter customExpandableListViewAdapter;
+    adaptertaken customExpandableListViewAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
 
@@ -31,16 +29,17 @@ public class projectLists extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.projectlist);
+        setContentView(R.layout.profile);
 
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Projects");
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        final String uidStr = auth.getCurrentUser().getUid();
+        myRef = database.getReference().child(uidStr);
 
         expandableListView = findViewById(R.id.lvExp);
         SetStandardGroups();
-        customExpandableListViewAdapter = new adapter(this, listDataHeader, listDataChild);
+        customExpandableListViewAdapter = new adaptertaken(this, listDataHeader, listDataChild);
         expandableListView.setAdapter(customExpandableListViewAdapter);
-
 
     }
 
@@ -66,7 +65,7 @@ public class projectLists extends Activity {
                     String childNames = (String) ds.getValue();
                     String key = ds.getKey();
                     Log.e("TAG", "childNames :" + childNames);
-                    childItem.add(key + " : " +childNames);
+                    childItem.add(childNames);
                 }
 
                 listDataChild.put(listDataHeader.get(counter), childItem);
@@ -78,9 +77,7 @@ public class projectLists extends Activity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Intent i = getIntent();
-                startActivity(i);
-                finish();
+
             }
 
             @Override
