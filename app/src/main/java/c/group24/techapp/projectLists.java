@@ -40,14 +40,7 @@ public class projectLists extends Activity {
         SetStandardGroups();
         customExpandableListViewAdapter = new adapter(this, listDataHeader, listDataChild);
         expandableListView.setAdapter(customExpandableListViewAdapter);
-        Button goJoin = findViewById(R.id.button4);
-        goJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent go_join = new Intent(projectLists.this,JoinProject.class);
-                startActivity(go_join);
-            }
-        });
+
     }
 
     public void SetStandardGroups() {
